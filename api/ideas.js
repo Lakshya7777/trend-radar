@@ -9,13 +9,16 @@ export default async function handler(req, res) {
 
   try {
     const r = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${key}`,
-      {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
-      }
-    );
+  "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent",
+  {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      "x-goog-api-key": key,
+    },
+    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
+  }
+);
     const data = await r.json();
     const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
     const clean = text.replace(/```json|```/g, "").trim();
