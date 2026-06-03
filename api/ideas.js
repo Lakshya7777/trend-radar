@@ -19,7 +19,8 @@ export default async function handler(req, res) {
     body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
   }
 );
-    const data = await r.json();
+    const raw = await r.text();
+res.status(r.status).json({ debug: raw }); return;
     const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
     const clean = text.replace(/```json|```/g, "").trim();
     const json = JSON.parse(clean.slice(clean.indexOf("{"), clean.lastIndexOf("}") + 1));
